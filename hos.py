@@ -15,6 +15,12 @@ def main():
     # Create an edit widget for entering a new hostname
     new_host = urwid.Edit("Add a new hostname: ")
 
+    # Wrap the edit widget in a BoxAdapter to control its size
+    new_host_box = urwid.BoxAdapter(urwid.Filler(new_host, valign="top"), height=1)
+
+    # Add padding to the new host box to center it horizontally
+    new_host_box = urwid.Padding(new_host_box, left=1, right=1)
+
     # Create a listbox for displaying the list of created hosts
     host_list = urwid.ListBox(
         urwid.SimpleFocusListWalker(
@@ -27,14 +33,14 @@ def main():
     )
 
     # Create a line box for the new host input
-    new_host_box = urwid.LineBox(urwid.Pile([new_host]), title="Add a new hostname")
+    new_host_linebox = urwid.LineBox(new_host_box, title="Add a new hostname")
 
     # Create a line box for the list of hosts
     host_list_box = urwid.LineBox(host_list, title="List of domain names")
 
     # Combine the columns into a single widget
     columns = urwid.Columns(
-        [("weight", 1, new_host_box), ("weight", 1, host_list_box)], dividechars=1
+        [("weight", 1, new_host_linebox), ("weight", 1, host_list_box)], dividechars=1
     )
 
     # Create a text widget for the footer, centered alignment
