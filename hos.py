@@ -18,8 +18,8 @@ def main():
     # Wrap the edit widget in a BoxAdapter to control its size
     new_host_box = urwid.BoxAdapter(urwid.Filler(new_host, valign="top"), height=1)
 
-    # Add padding to the new host box to center it horizontally
-    new_host_box = urwid.Padding(new_host_box, left=1, right=1)
+    # Add padding to the new host box to create internal margins
+    new_host_padded = urwid.Padding(new_host_box, left=1, right=1)
 
     # Create a listbox for displaying the list of created hosts
     host_list = urwid.ListBox(
@@ -33,21 +33,29 @@ def main():
     )
 
     # Create a line box for the new host input
-    new_host_linebox = urwid.LineBox(new_host_box, title="Add a new hostname")
+    new_host_linebox = urwid.LineBox(new_host_padded, title="Add a new hostname")
 
     # Create a line box for the list of hosts
     host_list_box = urwid.LineBox(host_list, title="List of domain names")
 
-    # Combine the columns into a single widget
-    columns = urwid.Columns(
-        [("weight", 1, new_host_linebox), ("weight", 1, host_list_box)], dividechars=1
+    # Add padding to the columns to create space from the main border
+    columns_padded = urwid.Padding(
+        urwid.Columns(
+            [("weight", 1, new_host_linebox), ("weight", 1, host_list_box)],
+            dividechars=1,
+        ),
+        left=2,
+        right=2,
     )
 
     # Create a text widget for the footer, centered alignment
     footer = urwid.Text("Press Q to exit", align="center")
 
+    # Add padding to the footer to create space from the main border
+    footer_padded = urwid.Padding(footer, left=2, right=2)
+
     # Create a frame with the header, body, and footer
-    frame = urwid.Frame(header=header, body=columns, footer=footer)
+    frame = urwid.Frame(header=header, body=columns_padded, footer=footer_padded)
 
     # Create a line box around the frame to create a border
     bordered_frame = urwid.LineBox(
