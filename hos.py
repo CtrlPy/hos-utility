@@ -25,9 +25,9 @@ def main():
     host_list = urwid.ListBox(
         urwid.SimpleFocusListWalker(
             [
-                urwid.Text("Hostname 1"),
-                urwid.Text("Hostname 2"),
-                urwid.Text("Hostname 3"),
+                urwid.Padding(urwid.Text("Hostname 1"), left=2),
+                urwid.Padding(urwid.Text("Hostname 2"), left=2),
+                urwid.Padding(urwid.Text("Hostname 3"), left=2),
             ]
         )
     )
