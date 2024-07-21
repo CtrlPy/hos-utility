@@ -10,7 +10,7 @@ def exit_on_q(key):
 # Main function to set up and run the UI
 def main():
     # Create a text widget for the header, centered alignment
-    header = urwid.Text("Logo and Name Utility", align="center")
+    header = urwid.Text("", align="center")
 
     # Create an edit widget for entering a new hostname
     new_host = urwid.Edit("Add a new hostname: ")
@@ -60,7 +60,7 @@ def main():
     # Create a line box around the frame to create a border
     bordered_frame = urwid.LineBox(
         frame,
-        title="hos utility",
+        title="hos",
         tlcorner="┌",
         tline="─",
         lline="│",
