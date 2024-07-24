@@ -1,4 +1,11 @@
 from setuptools import setup, find_packages
+import pathlib
+
+# Директория проекта
+HERE = pathlib.Path(__file__).parent
+
+# Читаем содержимое файла README.md
+long_description = (HERE / "README.md").read_text()
 
 setup(
     name="hos-utility",
@@ -15,6 +22,8 @@ setup(
     author="nesnite",
     author_email="nesnite@example.com",
     description="A simple utility for managing hostnames",
+    long_description=long_description,
+    long_description_content_type="text/markdown",  # Використовуємо Markdown для довгого опису
     url="https://github.com/YourUsername/hos-utility",
     classifiers=[
         "Programming Language :: Python :: 3",
