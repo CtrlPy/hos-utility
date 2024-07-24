@@ -3,15 +3,11 @@ import pathlib
 
 HERE = pathlib.Path(__file__).parent
 
-# Read version from VERSION.txt
-with open(HERE / "VERSION.txt") as version_file:
-    version = version_file.read().strip()
-
 long_description = (HERE / "README.md").read_text()
 
 setup(
     name="hos-utility",
-    version=version,
+    version="0.0.0",  # Початкова версія, яка буде автоматично оновлюватися semantic-release
     packages=find_packages(),
     install_requires=[
         "urwid",
@@ -21,8 +17,8 @@ setup(
             "hos = hos:main",
         ],
     },
-    author="nesnite",
-    author_email="nesnite@example.com",
+    author="Ваше ім’я",
+    author_email="ваша_пошта@example.com",
     description="A simple utility for managing hostnames",
     long_description=long_description,
     long_description_content_type="text/markdown",

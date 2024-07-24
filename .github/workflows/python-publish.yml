@@ -6,7 +6,7 @@ on:
       - main
 
 permissions:
-  contents: write  # Necessary permissions for the workflow
+  contents: write
 
 jobs:
   build-and-publish:
@@ -15,8 +15,6 @@ jobs:
     steps:
     - name: Checkout repository content
       uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
 
     - name: Set up Python
       uses: actions/setup-python@v3
@@ -32,25 +30,31 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install build
-        npm install -g semantic-release @semantic-release/changelog @semantic-release/commit-analyzer @semantic-release/git @semantic-release/github @semantic-release/release-notes-generator @semantic-release/exec semantic-release-pypi
-
-    - name: Generate Release Version
-      env:
-        GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        PYPI_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
-      run: npx semantic-release
-
-    - name: Ensure VERSION.txt
-      run: echo "0.0.1" > VERSION.txt
+        npm install -g semantic-release @semantic-release/changelog @semantic-release/commit-analyzer @semantic-release/git @semantic-release/github @semantic-release/release-notes-generator
 
     - name: Build package
       run: python -m build
 
+    - name: Generate release version
+      id: generate_version
+      env:
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      run: npx semantic-release
+
     - name: Publish package
       if: success()
-      uses: pypa/gh-action-pypi-publish@v1.4.2
+      uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
       with:
         user: __token__
         password: ${{ secrets.PYPI_API_TOKEN }}
+
+    - name: Commit release version
+      if: success()
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      run: |
+        VERSION=$(npx semantic-release --dry-run | grep -oP '(?<=next release version ).*')
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git commit -am "chore(release): $VERSION"
+        git push origin main
