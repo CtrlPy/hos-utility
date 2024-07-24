@@ -20,11 +20,11 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: '3.x'
-        
+
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '20.8.1'     
+        node-version: '20.8.1'  # Вказуємо необхідну версію Node.js
 
     - name: Install dependencies
       run: |
@@ -39,7 +39,7 @@ jobs:
       id: generate_version
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
-      run: npx semantic-release
+      run: semantic-release
 
     - name: Publish package
       if: success()
@@ -58,4 +58,4 @@ jobs:
         git commit -am "chore(release): ${steps.generate_version.outputs.nextRelease.version}"
         git push origin main
 
-        git push origin main
+        
