@@ -34,14 +34,14 @@ jobs:
         pip install build
         npm install -g semantic-release @semantic-release/changelog @semantic-release/commit-analyzer @semantic-release/git @semantic-release/github @semantic-release/release-notes-generator @semantic-release/exec semantic-release-pypi
 
-    - name: Build package
-      run: python -m build
-
-    - name: Release
+    - name: Generate Release Version
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
         PYPI_API_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
       run: npx semantic-release
+
+    - name: Build package
+      run: python -m build
 
     - name: Publish package
       if: success()

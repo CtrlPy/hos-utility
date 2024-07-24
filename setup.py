@@ -3,14 +3,15 @@ import pathlib
 
 HERE = pathlib.Path(__file__).parent
 
-long_description = (HERE / "README.md").read_text()
-
+# Read version from VERSION.txt
 with open(HERE / "VERSION.txt") as version_file:
     version = version_file.read().strip()
 
+long_description = (HERE / "README.md").read_text()
+
 setup(
     name="hos-utility",
-    version=version,  # Read version from VERSION.txt
+    version=version,
     packages=find_packages(),
     install_requires=[
         "urwid",
