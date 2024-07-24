@@ -12,8 +12,8 @@ setup(
             "hos = hos:main",
         ],
     },
-    author="Ваше ім’я",
-    author_email="ваша_пошта@example.com",
+    author="nesnite",
+    author_email="nesnite@example.com",
     description="A simple utility for managing hostnames",
     url="https://github.com/YourUsername/hos-utility",
     classifiers=[
