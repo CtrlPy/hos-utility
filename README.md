@@ -1,6 +1,8 @@
 # hos-utility
 
-*this utility is designed to automatically add custom domains to your hosts file*
+A simple utility for managing hostnames.
 
+## Installation
 
-* 1
+```bash
+pip install hos-utility
