@@ -40,6 +40,9 @@ jobs:
         PYPI_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
       run: npx semantic-release
 
+    - name: Ensure VERSION.txt
+      run: echo "0.0.1" > VERSION.txt
+
     - name: Build package
       run: python -m build
 
