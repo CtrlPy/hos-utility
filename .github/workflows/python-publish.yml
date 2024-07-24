@@ -6,7 +6,7 @@ on:
       - main
 
 permissions:
-  contents: write
+  contents: write  # Оновлюємо дозволи для workflow
 
 jobs:
   build-and-publish:
@@ -53,8 +53,7 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
       run: |
-        VERSION=$(npx semantic-release --dry-run | grep -oP '(?<=next release version ).*')
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-        git commit -am "chore(release): $VERSION"
+        git commit -am "chore(release): ${steps.generate_version.outputs.nextRelease.version}"
         git push origin main
