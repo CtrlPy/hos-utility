@@ -1,0 +1,55 @@
+name: Build and Publish Python Package
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository content
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install build semantic-release
+
+    - name: Build package
+      run: python -m build
+
+    - name: Generate release version
+      id: generate_version
+      env:
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      run: npx semantic-release
+
+    - name: Publish package
+      if: success()
+      uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
+      with:
+        user: __token__
+        password: ${{ secrets.PYPI_API_TOKEN }}
+
+    - name: Commit release version
+      if: success()
+      env:
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git commit -am "chore(release): ${steps.generate_version.outputs.nextRelease.version}"
+        git push origin main
+
+        git push origin main
