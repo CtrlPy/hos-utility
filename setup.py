@@ -1,10 +1,10 @@
 from setuptools import setup, find_packages
 import pathlib
 
-# Директория проекта
+
 HERE = pathlib.Path(__file__).parent
 
-# Читаем содержимое файла README.md
+
 long_description = (HERE / "README.md").read_text()
 
 setup(
