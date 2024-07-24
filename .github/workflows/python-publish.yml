@@ -39,13 +39,7 @@ jobs:
       id: generate_version
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
-      run: npx semantic-release --dry-run | tee release_output.txt
-
-    - name: Extract version
-      id: extract_version
-      run: |
-        VERSION=$(grep -oP '(?<=next release version ).*' release_output.txt)
-        echo "VERSION=$VERSION" >> $GITHUB_ENV
+      run: npx semantic-release
 
     - name: Publish package
       if: success()
@@ -59,7 +53,8 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
       run: |
+        VERSION=$(npx semantic-release --dry-run | grep -oP '(?<=next release version ).*')
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-        git commit -am "chore(release): ${{ env.VERSION }}"
+        git commit -am "chore(release): $VERSION"
         git push origin main
