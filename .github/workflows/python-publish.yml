@@ -41,6 +41,12 @@ jobs:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
       run: npx semantic-release
 
+    - name: Extract version
+      id: extract_version
+      run: |
+        VERSION=$(npx semantic-release --dry-run | grep -oP '(?<=next release version ).*')
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
+
     - name: Publish package
       if: success()
       uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
@@ -52,8 +58,8 @@ jobs:
       if: success()
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        VERSION: ${{ env.VERSION }}
       run: |
-        VERSION=$(npx semantic-release --dry-run | grep -oP '(?<=next release version ).*')
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
         git commit -am "chore(release): $VERSION"
