@@ -6,7 +6,7 @@ on:
       - main
 
 permissions:
-  contents: write
+  contents: write  # Дозволи для workflow
 
 jobs:
   build-and-publish:
@@ -15,6 +15,8 @@ jobs:
     steps:
     - name: Checkout repository content
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
     - name: Set up Python
       uses: actions/setup-python@v3
@@ -35,32 +37,17 @@ jobs:
     - name: Build package
       run: python -m build
 
-    - name: Generate release version
-      id: generate_version
+    - name: Release
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        PYPI_API_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
       run: npx semantic-release
-
-    - name: Extract version
-      id: extract_version
-      run: |
-        VERSION=$(npx semantic-release --dry-run | grep -oP '(?<=next release version ).*')
-        echo "VERSION=$VERSION" >> $GITHUB_ENV
 
     - name: Publish package
       if: success()
-      uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
+      uses: pypa/gh-action-pypi-publish@v1
       with:
         user: __token__
         password: ${{ secrets.PYPI_API_TOKEN }}
-
-    - name: Commit release version
-      if: success()
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        VERSION: ${{ env.VERSION }}
-      run: |
-        git config --global user.name 'github-actions[bot]'
-        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-        git commit -am "chore(release): $VERSION"
-        git push origin main
