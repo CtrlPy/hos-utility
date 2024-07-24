@@ -6,7 +6,7 @@ on:
       - main
 
 permissions:
-  contents: read
+  contents: write  # Оновлюємо дозволи для workflow
 
 jobs:
   build-and-publish:
@@ -39,7 +39,7 @@ jobs:
       id: generate_version
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
-      run: semantic-release
+      run: npx semantic-release
 
     - name: Publish package
       if: success()
