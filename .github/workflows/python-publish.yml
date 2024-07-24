@@ -31,6 +31,8 @@ jobs:
 
     - name: Generate release version
       id: generate_version
+      env:
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
       run: npx semantic-release
 
     - name: Publish package
@@ -42,8 +44,12 @@ jobs:
 
     - name: Commit release version
       if: success()
+      env:
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
       run: |
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
         git commit -am "chore(release): ${steps.generate_version.outputs.nextRelease.version}"
+        git push origin main
+
         git push origin main
