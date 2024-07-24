@@ -19,6 +19,11 @@ module.exports = {
       }
     ],
     '@semantic-release/github',
-    'semantic-release-pypi'
+    [
+      'semantic-release-pypi',
+      {
+        pkgRoot: '.',
+      }
+    ]
   ]
 };
