@@ -6,7 +6,7 @@ on:
       - main
 
 permissions:
-  contents: write  # Оновлюємо дозволи для workflow
+  contents: write
 
 jobs:
   build-and-publish:
@@ -43,7 +43,9 @@ jobs:
 
     - name: Extract version
       id: extract_version
-      run: echo "VERSION=$(grep -oP '(?<=next version is ).*' release_output.txt)" >> $GITHUB_ENV
+      run: |
+        VERSION=$(grep -oP '(?<=next release version ).*' release_output.txt)
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
 
     - name: Publish package
       if: success()
