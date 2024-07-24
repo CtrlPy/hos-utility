@@ -6,7 +6,7 @@ on:
       - main
 
 permissions:
-  contents: write  # Дозволи для workflow
+  contents: write  # Necessary permissions for the workflow
 
 jobs:
   build-and-publish:
@@ -32,7 +32,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install build
-        npm install -g semantic-release @semantic-release/changelog @semantic-release/commit-analyzer @semantic-release/git @semantic-release/github @semantic-release/release-notes-generator @semantic-release/exec
+        npm install -g semantic-release @semantic-release/changelog @semantic-release/commit-analyzer @semantic-release/git @semantic-release/github @semantic-release/release-notes-generator @semantic-release/exec semantic-release-pypi
 
     - name: Build package
       run: python -m build

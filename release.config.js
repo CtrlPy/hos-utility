@@ -4,24 +4,20 @@ module.exports = {
   plugins: [
     '@semantic-release/commit-analyzer',
     '@semantic-release/release-notes-generator',
-    [
-      '@semantic-release/changelog',
-      {
-        'changelogFile': 'CHANGELOG.md'
-      }
-    ],
+    '@semantic-release/changelog',
     [
       '@semantic-release/exec',
       {
-        'prepareCmd': 'sed -i "s/version=.*/version=\'${nextRelease.version}\',/" setup.py'
+        prepareCmd: 'echo ${nextRelease.version} > VERSION.txt'
       }
     ],
     [
       '@semantic-release/git',
       {
-        'assets': ['CHANGELOG.md', 'setup.py']
+        assets: ['VERSION.txt', 'CHANGELOG.md', 'setup.py']
       }
     ],
-    '@semantic-release/github'
+    '@semantic-release/github',
+    'semantic-release-pypi'
   ]
 };

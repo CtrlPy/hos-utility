@@ -5,9 +5,12 @@ HERE = pathlib.Path(__file__).parent
 
 long_description = (HERE / "README.md").read_text()
 
+with open(HERE / "VERSION.txt") as version_file:
+    version = version_file.read().strip()
+
 setup(
     name="hos-utility",
-    version="0.0.0",  # Початкова версія, яка буде автоматично оновлюватися semantic-release
+    version=version,  # Read version from VERSION.txt
     packages=find_packages(),
     install_requires=[
         "urwid",
