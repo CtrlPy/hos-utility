@@ -1,3 +1,11 @@
+## [1.0.2](https://github.com/CtrlPy/hos-utility/compare/v1.0.1...v1.0.2) (2024-07-25)
+
+
+### Bug Fixes
+
+* add py ([c19e6a8](https://github.com/CtrlPy/hos-utility/commit/c19e6a8a9a7b8698b7768adf30580f2db2fa13fd))
+* clean build ([c6b3202](https://github.com/CtrlPy/hos-utility/commit/c6b3202e31f17580561e1eb5cdb1dae89ebf0d39))
+
 ## [1.0.1](https://github.com/CtrlPy/hos-utility/compare/v1.0.0...v1.0.1) (2024-07-25)
 
 
