@@ -1,3 +1,11 @@
+## [1.0.1](https://github.com/CtrlPy/hos-utility/compare/v1.0.0...v1.0.1) (2024-07-25)
+
+
+### Bug Fixes
+
+* change version pypi ([ec3a8c2](https://github.com/CtrlPy/hos-utility/commit/ec3a8c209f75e13445eaa1f556ed71b5d243adc3))
+* sync version pypi ([b87ba83](https://github.com/CtrlPy/hos-utility/commit/b87ba830458a846d6b8a4c0c408259949584b541))
+
 # 1.0.0 (2024-07-25)
 
 
