@@ -11,11 +11,9 @@
       }
     ],
     [
-      "semantic-release-version-bump",
+      "@semantic-release/exec",
       {
-        "versionFile": "setup.py",
-        "search": "version=\"\\d+\\.\\d+\\.\\d+\"",
-        "replace": "version=\"${version}\""
+        "prepareCmd": "sed -i 's/version=\"[^\"]*\"/version=\"${nextRelease.version}\"/' setup.py"
       }
     ],
     [
