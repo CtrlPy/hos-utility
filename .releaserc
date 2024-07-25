@@ -1,6 +1,6 @@
 {
   "branches": ["main"],
-  "repositoryUrl": "https://github.com/YourUsername/hos-utility",
+  "repositoryUrl": "https://github.com/CtrlPy/hos-utility",
   "plugins": [
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
