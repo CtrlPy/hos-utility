@@ -32,14 +32,20 @@ jobs:
         pip install build
         npm install -g semantic-release @semantic-release/changelog @semantic-release/commit-analyzer @semantic-release/git @semantic-release/github @semantic-release/release-notes-generator @semantic-release/exec
 
-    - name: Build package
-      run: python -m build
 
+    - name: Clean previous builds
+      run: rm -rf dist/*    
+
+    
     - name: Semantic Release
       run: npx semantic-release
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
+
+    - name: Build package
+      run: python -m build
+    
 
     - name: Check version in setup.py
       run: grep 'version=' setup.py
