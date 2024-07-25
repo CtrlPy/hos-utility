@@ -11,15 +11,17 @@
       }
     ],
     [
-      "@semantic-release/exec",
+      "semantic-release-version-bump",
       {
-        "prepareCmd": "sed -i 's/version=\"[^\"]*\"/version=\"${nextRelease.version}\"/' setup.py"
+        "versionFile": "setup.py",
+        "search": "version=\"\\d+\\.\\d+\\.\\d+\"",
+        "replace": "version=\"${version}\""
       }
     ],
     [
       "@semantic-release/git",
       {
-        "assets": ["CHANGELOG.md", "setup.py", "dist/**/*", "hos_utility.egg-info/**/*", "release_output.txt"],
+        "assets": ["CHANGELOG.md", "setup.py"],
         "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
       }
     ],
