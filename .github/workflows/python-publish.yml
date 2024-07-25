@@ -6,7 +6,7 @@ on:
       - main
 
 permissions:
-  contents: write  # Оновлюємо дозволи для workflow
+  contents: write 
 
 jobs:
   build-and-publish:
@@ -35,15 +35,10 @@ jobs:
     - name: Build package
       run: python -m build
 
-    - name: Generate release version
-      id: generate_version
+    - name: Semantic Release
+      uses: cycjimmy/semantic-release-action@v4
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
-      run: npx semantic-release --dry-run | tee release_output.txt
-
-    - name: Extract version
-      id: extract_version
-      run: echo "VERSION=$(grep -oP '(?<=next version is ).*' release_output.txt)" >> $GITHUB_ENV
 
     - name: Publish package
       if: success()
@@ -52,12 +47,3 @@ jobs:
         user: __token__
         password: ${{ secrets.PYPI_API_TOKEN }}
 
-    - name: Commit release version
-      if: success()
-      env:
-        GH_TOKEN: ${{ secrets.GH_TOKEN }}
-      run: |
-        git config --global user.name 'github-actions[bot]'
-        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-        git commit -am "chore(release): ${{ env.VERSION }}"
-        git push origin main

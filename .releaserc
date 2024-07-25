@@ -1,0 +1,21 @@
+{
+  "branches": ["main"],
+  "repositoryUrl": "https://github.com/CtrlPy/hos-utility",
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    [
+      "@semantic-release/changelog",
+      {
+        "changelogFile": "CHANGELOG.md"
+      }
+    ],
+    [
+      "@semantic-release/git",
+      {
+        "assets": ["CHANGELOG.md", "dist/**/*", "hos_utility.egg-info/**/*", "release_output.txt"]
+      }
+    ],
+    "@semantic-release/github"
+  ]
+}
