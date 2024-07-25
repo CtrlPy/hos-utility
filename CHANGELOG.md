@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/CtrlPy/hos-utility/compare/v1.0.2...v1.0.3) (2024-07-25)
+
+
+### Bug Fixes
+
+* bag version ([4523ac3](https://github.com/CtrlPy/hos-utility/commit/4523ac37906fdce971e30e0d4c1eac4809b9b9e5))
+
 ## [1.0.2](https://github.com/CtrlPy/hos-utility/compare/v1.0.1...v1.0.2) (2024-07-25)
 
 
