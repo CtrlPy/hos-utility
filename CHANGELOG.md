@@ -1,3 +1,10 @@
+## [1.2.3](https://github.com/CtrlPy/hos-utility/compare/v1.2.2...v1.2.3) (2024-08-11)
+
+
+### Bug Fixes
+
+* fix exit on q ([6280587](https://github.com/CtrlPy/hos-utility/commit/62805878b32ae865f40b03b9eb84b9bab1f78719))
+
 ## [1.2.2](https://github.com/CtrlPy/hos-utility/compare/v1.2.1...v1.2.2) (2024-08-11)
 
 
