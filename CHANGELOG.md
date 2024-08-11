@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/CtrlPy/hos-utility/compare/v1.2.1...v1.2.2) (2024-08-11)
+
+
+### Bug Fixes
+
+* use global variables ([fdefaea](https://github.com/CtrlPy/hos-utility/commit/fdefaea0ea1253a916cd832cd6ed91371e5d94fa))
+
 ## [1.2.1](https://github.com/CtrlPy/hos-utility/compare/v1.2.0...v1.2.1) (2024-08-11)
 
 
