@@ -79,6 +79,11 @@ def remove_from_hosts(domain):
 
 # Main function to set up and run the UI
 def main():
+    global host_list  # Зробити змінну глобальною
+    global host_list_walker  # Зробити змінну глобальною
+    global loop  # Зробити змінну глобальною
+    global new_host  # Зробити змінну глобальною
+
     # Create a text widget for the header, centered alignment
     header = urwid.Text("", align="center")
 
@@ -153,25 +158,33 @@ def main():
     )
 
     # Handle input for switching focus, adding hosts, deleting hosts, and exiting
-    def handle_input(key):
-        if key == "tab":
-            focus_position = columns.get_focus_column()
-            if focus_position == 0:
-                columns.set_focus_column(1)
-            else:
-                columns.set_focus_column(0)
-        elif key == "enter":
-            add_host(new_host, host_list_walker)
-        elif key == "ctrl q":
-            raise urwid.ExitMainLoop()
-        elif key in ("delete", "d"):
-            delete_host(host_list_walker, host_list)
-        elif key in ["up", "down"]:
-            list_focus = columns.contents[1][0].base_widget
-            list_focus.keypress((20, len(host_list_walker)), key)
-
     loop.unhandled_input = handle_input
     loop.run()
+
+
+def handle_input(key):
+    global host_list  # Використати глобальні змінні
+    global host_list_walker  # Використати глобальні змінні
+    global new_host  # Використати глобальні змінні
+
+    if key == "tab":
+        focus_position = columns.get_focus_column()
+        if focus_position == 0:
+            columns.set_focus_column(1)
+        else:
+            columns.set_focus_column(0)
+    elif key == "enter":
+        add_host(new_host, host_list_walker)
+    elif key == "ctrl q":
+        raise urwid.ExitMainLoop()
+    elif key in ("delete", "d"):
+        delete_host(host_list_walker, host_list)
+    elif key == "up":
+        if host_list.focus_position > 0:
+            host_list.focus_position -= 1
+    elif key == "down":
+        if host_list.focus_position < len(host_list_walker) - 1:
+            host_list.focus_position += 1
 
 
 # Check if this script is being run directly
