@@ -2,21 +2,22 @@ import urwid
 import os
 
 
-# Function to exit the application when 'q' is pressed
+# Function to exit the application when 'q' or 'Ctrl+Q' is pressed
 def exit_on_q(key):
     if key in ("q", "Q"):
         raise urwid.ExitMainLoop()
+    elif key == "ctrl q":
+        raise urwid.ExitMainLoop()
 
 
-# Function to add a new hostname to the list and to the /etc/hosts file
+# Function to add a new hostname to the list
 def add_host(new_host_edit, host_list_walker):
     new_host = new_host_edit.get_edit_text().strip()
     if new_host:
-        # Add the hostname to the UI list
-        host_list_walker.append(urwid.Padding(urwid.Text(new_host), left=2))
+        host_list_walker.append(
+            urwid.AttrMap(urwid.Text(new_host), None, focus_map="reversed")
+        )
         new_host_edit.set_edit_text("")  # Clear the input after adding
-
-        # Add the hostname to /etc/hosts
         add_to_hosts(new_host)
 
 
@@ -27,6 +28,49 @@ def add_to_hosts(domain):
     try:
         with open(hosts_path, "a") as hosts_file:
             hosts_file.write(entry)
+    except PermissionError:
+        print(
+            "Permission denied: Unable to write to /etc/hosts. Please run as root or with sudo."
+        )
+
+
+# Function to read existing hosts from /etc/hosts
+def load_existing_hosts():
+    hosts_path = "/etc/hosts"
+    existing_hosts = []
+    try:
+        with open(hosts_path, "r") as hosts_file:
+            lines = hosts_file.readlines()
+            for line in lines:
+                if line.startswith("127.0.0.1"):
+                    domain = line.split()[1]
+                    existing_hosts.append(domain)
+    except PermissionError:
+        print(
+            "Permission denied: Unable to read /etc/hosts. Please run as root or with sudo."
+        )
+    return existing_hosts
+
+
+# Function to delete a host from the list and from /etc/hosts
+def delete_host(host_list_walker, listbox):
+    if len(host_list_walker):
+        focus_widget, focus_index = listbox.get_focus()
+        domain = focus_widget.base_widget.get_text()[0]  # Extract the domain name
+        del host_list_walker[focus_index]
+        remove_from_hosts(domain)
+
+
+# Function to remove a domain from /etc/hosts
+def remove_from_hosts(domain):
+    hosts_path = "/etc/hosts"
+    try:
+        with open(hosts_path, "r") as hosts_file:
+            lines = hosts_file.readlines()
+        with open(hosts_path, "w") as hosts_file:
+            for line in lines:
+                if domain not in line:
+                    hosts_file.write(line)
     except PermissionError:
         print(
             "Permission denied: Unable to write to /etc/hosts. Please run as root or with sudo."
@@ -49,6 +93,14 @@ def main():
 
     # Create a listbox for displaying the list of created hosts
     host_list_walker = urwid.SimpleFocusListWalker([])
+
+    # Load existing hosts from /etc/hosts
+    existing_hosts = load_existing_hosts()
+    for host in existing_hosts:
+        host_list_walker.append(
+            urwid.AttrMap(urwid.Text(host), None, focus_map="reversed")
+        )
+
     host_list = urwid.ListBox(host_list_walker)
 
     # Create a line box for the new host input
@@ -58,17 +110,17 @@ def main():
     host_list_box = urwid.LineBox(host_list, title="List of hosts names")
 
     # Add padding to the columns to create space from the main border
-    columns_padded = urwid.Padding(
-        urwid.Columns(
-            [("weight", 1, new_host_linebox), ("weight", 1, host_list_box)],
-            dividechars=1,
-        ),
-        left=2,
-        right=2,
+    columns = urwid.Columns(
+        [("weight", 1, new_host_linebox), ("weight", 1, host_list_box)],
+        dividechars=1,
     )
+    columns_padded = urwid.Padding(columns, left=2, right=2)
 
     # Create a text widget for the footer, centered alignment
-    footer = urwid.Text("Press Q to exit", align="center")
+    footer = urwid.Text(
+        "Press Ctrl+Q to exit, Tab to switch focus, Enter to add host, Delete to remove host",
+        align="center",
+    )
 
     # Add padding to the footer to create space from the main border
     footer_padded = urwid.Padding(footer, left=2, right=2)
@@ -96,14 +148,24 @@ def main():
     # Create and run the main event loop
     loop = urwid.MainLoop(
         colored_frame,
-        palette=[("linebox", "light cyan", "black")],
+        palette=[("linebox", "light cyan", "black"), ("reversed", "standout", "")],
         unhandled_input=exit_on_q,
     )
 
-    # Add key press event handler to capture 'enter' key for adding new host
+    # Handle input for switching focus, adding hosts, deleting hosts, and exiting
     def handle_input(key):
-        if key == "enter":
+        if key == "tab":
+            focus_position = columns.get_focus_column()
+            if focus_position == 0:
+                columns.set_focus_column(1)
+            else:
+                columns.set_focus_column(0)
+        elif key == "enter":
             add_host(new_host, host_list_walker)
+        elif key == "ctrl q":
+            raise urwid.ExitMainLoop()
+        elif key in ("delete", "d"):
+            delete_host(host_list_walker, host_list)
 
     loop.unhandled_input = handle_input
     loop.run()
