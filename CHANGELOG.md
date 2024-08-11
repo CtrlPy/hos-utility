@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/CtrlPy/hos-utility/compare/v1.1.0...v1.2.0) (2024-08-11)
+
+
+### Features
+
+* added transition between windows ([0284b27](https://github.com/CtrlPy/hos-utility/commit/0284b27b3b01a3cd817fd30569a8c907f3ad1936))
+
 # [1.1.0](https://github.com/CtrlPy/hos-utility/compare/v1.0.4...v1.1.0) (2024-08-11)
 
 
