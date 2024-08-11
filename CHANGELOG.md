@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/CtrlPy/hos-utility/compare/v1.2.3...v1.3.0) (2024-08-11)
+
+
+### Features
+
+* new new interface design ([bec4f59](https://github.com/CtrlPy/hos-utility/commit/bec4f59bbd1d013c09e8038bcf633043ffae2931))
+
 ## [1.2.3](https://github.com/CtrlPy/hos-utility/compare/v1.2.2...v1.2.3) (2024-08-11)
 
 
