@@ -1,3 +1,11 @@
+## [1.0.4](https://github.com/CtrlPy/hos-utility/compare/v1.0.3...v1.0.4) (2024-08-11)
+
+
+### Bug Fixes
+
+* new feature piplaine ([8d32b02](https://github.com/CtrlPy/hos-utility/commit/8d32b0276013207aa3c7226d50be76a3c9f5d3fe))
+* test fix ([d103daf](https://github.com/CtrlPy/hos-utility/commit/d103daf75d2561a9f9fc10086d7594419151d949))
+
 ## [1.0.3](https://github.com/CtrlPy/hos-utility/compare/v1.0.2...v1.0.3) (2024-07-25)
 
 
