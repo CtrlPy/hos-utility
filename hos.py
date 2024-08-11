@@ -166,6 +166,9 @@ def main():
             raise urwid.ExitMainLoop()
         elif key in ("delete", "d"):
             delete_host(host_list_walker, host_list)
+        elif key in ["up", "down"]:
+            list_focus = columns.contents[1][0].base_widget
+            list_focus.keypress((20, len(host_list_walker)), key)
 
     loop.unhandled_input = handle_input
     loop.run()
