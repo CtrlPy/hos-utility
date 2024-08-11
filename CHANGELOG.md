@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/CtrlPy/hos-utility/compare/v1.2.0...v1.2.1) (2024-08-11)
+
+
+### Bug Fixes
+
+* correct placement in the list of names ([91d3e36](https://github.com/CtrlPy/hos-utility/commit/91d3e362215a084dee121d225c5756dfdfa03519))
+
 # [1.2.0](https://github.com/CtrlPy/hos-utility/compare/v1.1.0...v1.2.0) (2024-08-11)
 
 
