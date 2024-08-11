@@ -88,11 +88,50 @@ def main():
     # Create an edit widget for entering a new hostname
     new_host = urwid.Edit("add: ")
 
-    # Wrap the edit widget in a BoxAdapter to control its size
-    new_host_box = urwid.BoxAdapter(urwid.Filler(new_host, valign="top"), height=1)
+    # Create an instruction text
+    instructions = urwid.Text(
+        "\n".join(
+            [
+                "Instructions:",
+                " - Press Q to exit",
+                " - Tab to switch focus",
+                " - Enter to add host",
+                " - Delete to remove host",
+            ]
+        ),
+        align="left",
+    )
 
-    # Add padding to the new host box to create internal margins
-    new_host_padded = urwid.Padding(new_host_box, left=1, right=1)
+    # ASCII logo text
+    LOGO_TEXT = """
+                                   ___
+ _______                  /__/
+|.-----.|            ,---[___]*
+||     ||           /    routrer
+||_____||    _____ /        ____
+|o_____*|   [o_+_+]--------[=i==]
+ |     ________| 850        drive
+ |  __|_        interface
+ '-/_==_\\
+  /_____\\  ATARI 800       -nesnite-
+       """
+
+    # ASCII logo widget
+    ascii_logo = urwid.Text(("logo", LOGO_TEXT), align="left")
+
+    # Create a vertical pile for the left section (edit field + instructions + logo)
+    left_pile = urwid.Pile(
+        [
+            urwid.Padding(new_host, left=1, right=1),
+            urwid.Divider(),  # Add a space between the input field and instructions
+            urwid.Padding(instructions, left=1, right=1),
+            urwid.Divider(),  # Add a space between instructions and the logo
+            urwid.Padding(ascii_logo, left=1, right=1),
+        ]
+    )
+
+    # Wrap the left pile in a BoxAdapter to control its size
+    new_host_box = urwid.BoxAdapter(urwid.Filler(left_pile, valign="top"), height=18)
 
     # Create a listbox for displaying the list of created hosts
     host_list_walker = urwid.SimpleFocusListWalker([])
@@ -106,24 +145,21 @@ def main():
 
     host_list = urwid.ListBox(host_list_walker)
 
-    # Create a line box for the new host input
-    new_host_linebox = urwid.LineBox(new_host_padded, title="new host")
+    # Add padding to the host list to create space from the main border
+    padded_host_list = urwid.Padding(host_list, left=1, right=1)
 
     # Create a line box for the list of hosts
-    host_list_box = urwid.LineBox(host_list, title="List of hosts names")
+    host_list_box = urwid.LineBox(padded_host_list, title="List of hosts names")
 
     # Add padding to the columns to create space from the main border
     columns = urwid.Columns(
-        [("weight", 1, new_host_linebox), ("weight", 1, host_list_box)],
+        [("weight", 1, new_host_box), ("weight", 1, host_list_box)],
         dividechars=1,
     )
     columns_padded = urwid.Padding(columns, left=2, right=2)
 
-    # Create a text widget for the footer, centered alignment
-    footer = urwid.Text(
-        "Press Q to exit, Tab to switch focus, Enter to add host, Delete to remove host",
-        align="center",
-    )
+    # Create a text widget for the footer with an empty text for the bottom padding
+    footer = urwid.Text("", align="center")
 
     # Add padding to the footer to create space from the main border
     footer_padded = urwid.Padding(footer, left=2, right=2)
@@ -151,7 +187,11 @@ def main():
     # Create and run the main event loop
     loop = urwid.MainLoop(
         colored_frame,
-        palette=[("linebox", "light cyan", "black"), ("reversed", "standout", "")],
+        palette=[
+            ("linebox", "light cyan", "black"),
+            ("reversed", "standout", ""),
+            ("logo", "light cyan", "black"),
+        ],
         unhandled_input=exit_on_q,
     )
 
