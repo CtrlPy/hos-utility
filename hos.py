@@ -1,10 +1,36 @@
 import urwid
+import os
 
 
 # Function to exit the application when 'q' is pressed
 def exit_on_q(key):
     if key in ("q", "Q"):
         raise urwid.ExitMainLoop()
+
+
+# Function to add a new hostname to the list and to the /etc/hosts file
+def add_host(new_host_edit, host_list_walker):
+    new_host = new_host_edit.get_edit_text().strip()
+    if new_host:
+        # Add the hostname to the UI list
+        host_list_walker.append(urwid.Padding(urwid.Text(new_host), left=2))
+        new_host_edit.set_edit_text("")  # Clear the input after adding
+
+        # Add the hostname to /etc/hosts
+        add_to_hosts(new_host)
+
+
+# Function to add a domain to /etc/hosts
+def add_to_hosts(domain):
+    hosts_path = "/etc/hosts"
+    entry = f"127.0.0.1 {domain}\n"
+    try:
+        with open(hosts_path, "a") as hosts_file:
+            hosts_file.write(entry)
+    except PermissionError:
+        print(
+            "Permission denied: Unable to write to /etc/hosts. Please run as root or with sudo."
+        )
 
 
 # Main function to set up and run the UI
@@ -22,15 +48,8 @@ def main():
     new_host_padded = urwid.Padding(new_host_box, left=1, right=1)
 
     # Create a listbox for displaying the list of created hosts
-    host_list = urwid.ListBox(
-        urwid.SimpleFocusListWalker(
-            [
-                urwid.Padding(urwid.Text("Hostname 1"), left=2),
-                urwid.Padding(urwid.Text("Hostname 2"), left=2),
-                urwid.Padding(urwid.Text("Hostname 3"), left=2),
-            ]
-        )
-    )
+    host_list_walker = urwid.SimpleFocusListWalker([])
+    host_list = urwid.ListBox(host_list_walker)
 
     # Create a line box for the new host input
     new_host_linebox = urwid.LineBox(new_host_padded, title="new host")
@@ -80,6 +99,13 @@ def main():
         palette=[("linebox", "light cyan", "black")],
         unhandled_input=exit_on_q,
     )
+
+    # Add key press event handler to capture 'enter' key for adding new host
+    def handle_input(key):
+        if key == "enter":
+            add_host(new_host, host_list_walker)
+
+    loop.unhandled_input = handle_input
     loop.run()
 
 
