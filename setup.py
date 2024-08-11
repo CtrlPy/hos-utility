@@ -7,7 +7,7 @@ long_description = (HERE / "README.md").read_text()
 
 setup(
     name="hos-utility",
-    version="1.0.4",
+    version="1.1.0",
     packages=find_packages(),
     install_requires=[
         "urwid",
