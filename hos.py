@@ -2,11 +2,9 @@ import urwid
 import os
 
 
-# Function to exit the application when 'q' or 'Ctrl+Q' is pressed
+# Function to exit the application when 'q' is pressed
 def exit_on_q(key):
     if key in ("q", "Q"):
-        raise urwid.ExitMainLoop()
-    elif key == "ctrl q":
         raise urwid.ExitMainLoop()
 
 
@@ -123,7 +121,7 @@ def main():
 
     # Create a text widget for the footer, centered alignment
     footer = urwid.Text(
-        "Press Ctrl+Q to exit, Tab to switch focus, Enter to add host, Delete to remove host",
+        "Press Q to exit, Tab to switch focus, Enter to add host, Delete to remove host",
         align="center",
     )
 
@@ -175,7 +173,7 @@ def handle_input(key):
             columns.set_focus_column(0)
     elif key == "enter":
         add_host(new_host, host_list_walker)
-    elif key == "ctrl q":
+    elif key == "q":
         raise urwid.ExitMainLoop()
     elif key in ("delete", "d"):
         delete_host(host_list_walker, host_list)
