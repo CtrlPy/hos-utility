@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/CtrlPy/hos-utility/compare/v1.0.4...v1.1.0) (2024-08-11)
+
+
+### Features
+
+* add new host list 2 ([d78a1a5](https://github.com/CtrlPy/hos-utility/commit/d78a1a5b1636f4ccab344275fa179c8494e4e7d9))
+
 ## [1.0.4](https://github.com/CtrlPy/hos-utility/compare/v1.0.3...v1.0.4) (2024-08-11)
 
 
