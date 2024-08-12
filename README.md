@@ -12,7 +12,7 @@
 
 ## Screenshots
 
-![hos Interface](home/rocket/Pictures/Blog/hos.png)
+![hos Interface](images/hos.png)
 
 ## Installation
 
