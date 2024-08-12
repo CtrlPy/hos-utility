@@ -107,7 +107,7 @@ def main():
 
     # ASCII logo text
     LOGO_TEXT = """
-                                   ___
+
  _______                  /__/
 |.-----.|            ,---[___]*
 ||     ||           /    router
@@ -115,8 +115,8 @@ def main():
 |o_____*|   [o_+_+]--------[=i==]
  |     ________| 850        drive
  |  __|_        interface
- '-/_==_\\
-  /_____\\  ATARI 800       -nesnite-
+ '-/_==_|
+
        """
 
     # ASCII logo widget
