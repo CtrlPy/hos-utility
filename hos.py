@@ -88,6 +88,9 @@ def main():
     # Create an edit widget for entering a new hostname
     new_host = urwid.Edit("add: ")
 
+    # Wrap the edit widget in a LineBox to give it a border (the previous style)
+    new_host_box = urwid.LineBox(urwid.Padding(new_host, left=1, right=1), title="")
+
     # Create an instruction text
     instructions = urwid.Text(
         "\n".join(
@@ -107,7 +110,7 @@ def main():
                                    ___
  _______                  /__/
 |.-----.|            ,---[___]*
-||     ||           /    routrer
+||     ||           /    router
 ||_____||    _____ /        ____
 |o_____*|   [o_+_+]--------[=i==]
  |     ________| 850        drive
@@ -122,7 +125,7 @@ def main():
     # Create a vertical pile for the left section (edit field + instructions + logo)
     left_pile = urwid.Pile(
         [
-            urwid.Padding(new_host, left=1, right=1),
+            new_host_box,  # Use the new_host_box with a LineBox
             urwid.Divider(),  # Add a space between the input field and instructions
             urwid.Padding(instructions, left=1, right=1),
             urwid.Divider(),  # Add a space between instructions and the logo
@@ -131,7 +134,7 @@ def main():
     )
 
     # Wrap the left pile in a BoxAdapter to control its size
-    new_host_box = urwid.BoxAdapter(urwid.Filler(left_pile, valign="top"), height=18)
+    left_pile_box = urwid.BoxAdapter(urwid.Filler(left_pile, valign="top"), height=20)
 
     # Create a listbox for displaying the list of created hosts
     host_list_walker = urwid.SimpleFocusListWalker([])
@@ -153,7 +156,7 @@ def main():
 
     # Add padding to the columns to create space from the main border
     columns = urwid.Columns(
-        [("weight", 1, new_host_box), ("weight", 1, host_list_box)],
+        [("weight", 1, left_pile_box), ("weight", 1, host_list_box)],
         dividechars=1,
     )
     columns_padded = urwid.Padding(columns, left=2, right=2)
