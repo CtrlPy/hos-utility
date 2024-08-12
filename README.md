@@ -23,7 +23,7 @@ To install **hos** from the GitHub repository:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/hos.git
+   git clone https://github.com/CtrlPy/hos.git
    ```
 
 2. Navigate to the project directory:
@@ -100,6 +100,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 
-For any questions or suggestions, please reach out to [nesnite@gmail.com](mailto:nesnite@gmail.com).
+For any questions or suggestions, please reach out to [ctrlpy3@gmail.com](mailto:ctrlpy3@gmail.com).
 
 ---
