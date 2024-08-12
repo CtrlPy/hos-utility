@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/CtrlPy/hos-utility/compare/v1.3.0...v1.3.1) (2024-08-12)
+
+
+### Bug Fixes
+
+* changing the hot name input field widget ([0b254b2](https://github.com/CtrlPy/hos-utility/commit/0b254b260b53f6c8d35e902bd9949cd38ceb4083))
+
 # [1.3.0](https://github.com/CtrlPy/hos-utility/compare/v1.2.3...v1.3.0) (2024-08-11)
 
 
